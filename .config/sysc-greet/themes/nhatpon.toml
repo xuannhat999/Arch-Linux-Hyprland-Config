@@ -1,0 +1,15 @@
+# my-theme.toml
+name = "nhatpon"
+
+[colors]
+bg_base = "#1d1323"
+bg_active = "#1d1323"
+primary = "#c19dec"
+secondary = "#c19dec"
+accent = "#9581ff"
+warning = "#f59e0b"
+danger = "#ef4444"
+fg_primary = "#c19dec"
+fg_secondary = "#6e35b3"
+fg_muted = "#9581ff"
+border_focus = "#9581ff"
