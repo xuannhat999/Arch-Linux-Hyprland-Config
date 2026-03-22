@@ -1,34 +1,36 @@
 window {
-    background: transparent;
+  background: transparent;
 }
 
 #outer-box {
-    padding: 20px;
+  padding: 20px;
 
-    border-radius: 16px;
-    border: 2px solid #cba6f7;
-    background-color: rgba(21,19,37,0.95);
+  border-radius: 16px;
+  border: 2px solid #cba6f7;
+  background-color: #22122f;
+  opacity: 0.9;
 }
+
 #input {
-	border-radius: 20px;
-	border: 1px solid #cba6f7;
-	margin-bottom: 5px;
+  border-radius: 20px;
+  border: 1px solid #cba6f7;
+  margin-bottom: 5px;
   background: transparent;
   color: #d2abff;
 }
+
 #entry {
-  background:transparent;
+  background: transparent;
   color: #d2abff;
 }
+
 #entry:selected * {
-    color: rgba(0, 0, 0, 1);
-    box-shadow: none;
-    background-color:#d2abff;
-    border-radius: 10px;
+  color: rgba(0, 0, 0, 1);
+  box-shadow: none;
+  background-color: #d2abff;
+  border-radius: 10px;
 }
+
 #scroll {
-	background: transparent;
+  background: transparent;
 }
-
-
-

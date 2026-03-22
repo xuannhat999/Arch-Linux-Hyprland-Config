@@ -1,23 +1,26 @@
 window {
-    background: transparent;
+  background: transparent;
 }
 
 #outer-box {
-    padding: 20px;
-    border-radius: 16px;
-    border: 2px solid #d2abff;
-    background-color: rgba(29,19,37,0.95);
+  padding: 20px;
+  border-radius: 16px;
+  border: 2px solid #d2abff;
+  background-color: #22122f;
+  opacity: 0.9;
 }
+
 #entry {
-    font-size: xx-large;
-    color: #d2abff;
-    padding: 5px 10px;
-    min-height: 87px;
-    background: rgba(29,19,37,0.95);
+  font-size: xx-large;
+  color: #d2abff;
+  padding: 5px 10px;
+  min-height: 87px;
+  background: transparent;
 }
+
 #entry:selected * {
-    color: rgba(0, 0, 0, 1);
-    /* box-shadow: none; */
-    background-color: #d2abff;
-    border-radius: 10px;
+  color: rgba(0, 0, 0, 1);
+  box-shadow: none;
+  background-color: #d2abff;
+  border-radius: 10px;
 }
