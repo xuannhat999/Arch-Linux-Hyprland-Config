@@ -50,8 +50,8 @@ require("lazy").setup({
       },
     },
   },
-  opts = {
-    root_spec = { "cwd" }, -- Ép toàn bộ project dùng CWD (Thư mục mở nvim)
-  },
+  -- opts = {
+  --   root_spec = { "cwd" }, -- Ép toàn bộ project dùng CWD (Thư mục mở nvim)
+  -- },
 })
 vim.cmd("colorscheme catppuccin-mocha")
