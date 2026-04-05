@@ -18,11 +18,8 @@
   ],
   "modules-right": [
     "group/system",
-    // "bluetooth",
-    // "pulseaudio",
-    // "network",
-    "group/network-bluetooth-audio",
     "group/pw",
+    "group/network-bluetooth-audio",
     "tray",
     "custom/power"
   ],
