@@ -1,0 +1,10 @@
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[user]
+	name = xuannhat999
+	email = xuannhat123456789@gmail.com
+[pull]
+	rebase = false

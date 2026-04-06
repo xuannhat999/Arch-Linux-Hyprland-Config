@@ -3,8 +3,7 @@
 #
 
 export ANDROID_HOME=$HOME/Android/Sdk
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-export PATH="$HOME/.npm-global/bin:$PATH"
+export PATH="$HOME/.npm-global/bin:$PATH:$ANDROID_HOME/platform-tools"
 # Sửa lỗi trắng màn hình Java trên Arch Linux (Hyprland/Wayland)
 export _JAVA_AWT_WM_NONREPARENTING=1
 export VIRTUAL_ENV_DISABLE_PROMPT=1
