@@ -6,22 +6,16 @@
   background-color: transparent;
 }
 
-/* * {
-    font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", sans-serif;
-} */
-
-
 window#waybar {
   background-color: transparent;
   color: #ffffff;
-  /* transition-property: background-color;
-    transition-duration: .5s; */
 }
 
 #custom-launcher {
   font-size: x-large;
   font-weight: bolder;
-  margin: 0 10px;
+  margin-left: 10px;
+  margin-right: 5px;
 }
 
 #workspaces button {
@@ -29,10 +23,9 @@ window#waybar {
   background-color: transparent;
   font-size: medium;
   font-weight: bold;
-  border-radius: 10px;
   transition: all 250ms ease-in-out;
   color: #ffffff;
-  border-radius: 8px;
+  border-radius: 7px;
   min-height: 0px;
 }
 
@@ -54,7 +47,6 @@ window#waybar {
   border-radius: 10px;
   padding: 3px 2px;
   border: 1px solid #b29cc6;
-  color: #b29cc6;
 }
 
 
@@ -85,7 +77,6 @@ window#waybar {
   background-color: #22122f;
   border-radius: 10px;
   border: 1px solid #b29cc6;
-  margin: 0px 3px;
   font-size: x-small;
 }
 
@@ -96,11 +87,10 @@ window#waybar {
 }
 
 #system {
-  padding: 2px 15px;
+  padding: 2px 10px;
   border-radius: 10px;
   background-color: #22122f;
   border: 1px solid #b29cc6;
-  margin: 0px 3px;
 }
 
 #battery {
@@ -120,19 +110,14 @@ window#waybar {
   color: #dbbe3c;
 }
 
-#battery.critical {
-  color: rgb(212, 55, 55)
+/* #battery.critical { */
+/*   color: #e63636; */
+/* } */
+/* /* Using steps() instead of linear as a timing function to limit cpu usage */ */
+#battery.critical:not(.charging) {
+  color: #e63636;
 }
 
-/* @keyframes blink {
-    to {
-        background-color: #ffffff;
-        color: #000000;
-    }
-} */
-#network {
-  margin: 0px 5px;
-}
 #network.disconnected,
 #network.disabled {
   color: #e63636
@@ -142,26 +127,16 @@ window#waybar {
   color: #dbbe3c;
 }
 
-/* Using steps() instead of linear as a timing function to limit cpu usage */
-#battery.critical:not(.charging) {
-  color: #e63636;
-  animation-name: blink;
-  animation-duration: 0.5s;
-  animation-timing-function: steps(12);
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-}
 
 #custom-power {
   font-size: x-large;
-  margin-left: 10px;
+  margin-left: 5px;
   margin-right: 10px;
 }
 
 #power-profiles-daemon {
-  margin-left: 10px;
+  margin-left: 15px;
   font-weight: bold;
-  padding-left: 3px;
   font-size: medium;
 }
 
@@ -170,7 +145,6 @@ window#waybar {
   border: 1px solid #b29cc6;
   border-radius: 10px;
   padding: 0 15px;
-  margin: 0px 3px;
 }
 #network-bluetooth-audio {
   border: 1px solid #b29cc6;
@@ -179,14 +153,12 @@ window#waybar {
   padding: 0px 15px;
 }
 
- 
 #bluetooth {
   font-size: large;
-  margin: 0px 10px;
+  margin: 0px 15px;
 }
 
 #pulseaudio {
   font-size: medium;
   font-weight: bold;
-  margin: 0px 5px;
 }

@@ -7,7 +7,7 @@
   "margin-right": 10,
   // "position": "bottom", // Waybar position (top|bottom|left|right)
   "height": 30, // Waybar height (to be removed for auto height)
-  "spacing": 5, // Gaps between modules (4px)
+  "spacing": 10, // Gaps between modules (4px)
   // Choose the order of the modules
   "modules-left": [
     "custom/launcher",
