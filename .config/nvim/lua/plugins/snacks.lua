@@ -1,6 +1,11 @@
 return {
   "folke/snacks.nvim",
   opts = {
+    -- terminal = {
+    --   win = {
+    --     height = 0.3,
+    --   },
+    -- },
     explorer = {
       files = {
         dotfiles = true, -- Luôn hiện file bắt đầu bằng dấu chấm

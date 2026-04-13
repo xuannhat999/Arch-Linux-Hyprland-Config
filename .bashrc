@@ -31,3 +31,8 @@ export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 export HISTSIZE=10000         # Số lệnh lưu trong bộ nhớ (RAM)
 export HISTFILESIZE=20000     # Số lệnh lưu trong file trên ổ cứng
 export HISTCONTROL=ignoreboth # Không lưu lệnh trùng nhau liên tiếp và lệnh có khoảng trắng phía trước
+
+# Kiểm tra nếu KHÔNG phải là terminal trong Neovim thì mới chạy fastfetch
+if [ -z "$NVIM" ] && [ -z "$VIMRUNTIME" ]; then
+  fastfetch
+fi
