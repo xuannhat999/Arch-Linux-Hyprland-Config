@@ -22,6 +22,10 @@ PACKAGES=(
   "hyprpaper"
   "hyprshot"
   "hypridle"
+  "bluez"
+  "bluez-utils"
+  "pipewire-pulse"
+  "wirepluber"
   # TUI MANAGER
   "wiremix"
   "bluetui"
@@ -34,7 +38,9 @@ PACKAGES=(
   "papirus-icon-theme"
   "ttf-jetbrains-mono-nerd"
   "noto-fonts-cjk"
+  "ttf-ms-fonts"
   # UTILS
+  "tree-sitter"
   "libreoffice-fresh"
   "starship"
   "fzf"
