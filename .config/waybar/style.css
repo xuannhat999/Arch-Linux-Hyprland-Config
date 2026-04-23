@@ -82,13 +82,13 @@ window#waybar {
 
 #cpu,
 #memory {
-  font-size: xx-small;
+  font-size: 10px;
   font-weight: bold;
 }
 
 #system {
-  padding: 2px 10px;
-  border-radius: 10px;
+  padding: 0px 10px;
+  border-radius: 8px;
   background-color: #22122f;
   border: 1px solid #b29cc6;
 }
