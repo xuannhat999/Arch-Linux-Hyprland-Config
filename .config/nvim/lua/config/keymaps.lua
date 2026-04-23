@@ -5,6 +5,7 @@
 vim.keymap.set("n", "<Tab>", "i", { noremap = true, silent = true })
 vim.keymap.set({ "n", "v" }, "x", [["_d]], { noremap = true })
 vim.keymap.set("n", "xx", [["_dd]], { noremap = true })
+vim.keymap.set("n", "U", "g+", { desc = "Redo (time travel forward)" })
 vim.keymap.set("n", "<F5>", function()
   if vim.bo.buftype == "" then
     vim.cmd("w")
