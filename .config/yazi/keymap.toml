@@ -2,8 +2,10 @@
 # If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
 "$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
 # In Yazi, bind a key to copy file URIs to clipboard
-
-
+[[mgr.prepend_keymap]]
+on = "T"
+run = "plugin recycle-bin"
+desc = "Trash bin"
 [[mgr.prepend_keymap]]
 on = ["c", "p"]
 run = "plugin convert -- --extension='png'"

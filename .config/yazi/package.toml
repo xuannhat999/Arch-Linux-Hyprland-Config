@@ -48,6 +48,11 @@ use = "atareao/convert"
 rev = "ce060d9"
 hash = "1c0465351f2a344e842f065ab316f265"
 
+[[plugin.deps]]
+use = "uhs-robert/recycle-bin"
+rev = "fa68711"
+hash = "8714306b5cac6359edbacbf545fbd691"
+
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-mocha"
 rev = "9511cb0"
