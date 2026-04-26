@@ -29,8 +29,6 @@ window#waybar {
   min-height: 0px;
 }
 
-
-
 #workspaces button.focused,
 #workspaces button.active {
   background-color: #b29cc6;
@@ -41,14 +39,12 @@ window#waybar {
 }
 
 
-#window,
 #workspaces {
   background-color: #22122f;
   border-radius: 10px;
   padding: 3px 2px;
   border: 1px solid #b29cc6;
 }
-
 
 #date-time {
   background-color: #22122f;

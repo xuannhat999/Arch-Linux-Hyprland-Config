@@ -13,8 +13,8 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   end
 end
 vim.opt.rtp:prepend(lazypath)
-
-vim.g.root_spec = { "cwd" }
+vim.opt.title = true
+vim.opt.titlestring = "nvim"
 require("lazy").setup({
   spec = {
     -- add LazyVim and import its plugins
