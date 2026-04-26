@@ -288,10 +288,10 @@ overwrite_origin = "center"
 overwrite_offset = [0, 0, 50, 15]
 
 # quit
-quit_title = "Quit?"
-quit_body = "There are unfinished tasks, quit anyway?\n(Open task manager with default key 'w')"
-quit_origin = "center"
-quit_offset = [0, 0, 50, 15]
+# quit_title = "Quit?"
+# quit_body = "There are unfinished tasks, quit anyway?\n(Open task manager with default key 'w')"
+# quit_origin = "center"
+# quit_offset = [0, 0, 50, 15]
 
 [pick]
 open_title = "Open with:"
