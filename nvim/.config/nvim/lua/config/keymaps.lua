@@ -2,13 +2,17 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 --
-vim.keymap.set("n", "<leader>e", function()
-  Snacks.explorer({ cwd = vim.fn.getcwd() })
-end, { desc = "Explorer Snacks (cwd)" })
+-- vim.keymap.set("n", "<leader>e", function()
+--   Snacks.explorer({ cwd = vim.fn.getcwd() })
+-- end, { desc = "Explorer Snacks (cwd)" })
+--
 vim.keymap.set("n", "<Tab>", "i", { noremap = true, silent = true })
 vim.keymap.set({ "n", "v" }, "x", [["_d]], { noremap = true })
 vim.keymap.set("n", "xx", [["_dd]], { noremap = true })
 vim.keymap.set("n", "U", "g+", { desc = "Redo (time travel forward)" })
+
+vim.keymap.set("n", "<leader>ll", "<cmd>Lazy<cr>", { desc = "Lazy" })
+vim.keymap.set("n", "<leader>le", "<cmd>LazyExtras<cr>", { desc = "LazyExtras" })
 vim.keymap.set("n", "<F5>", function()
   if vim.bo.buftype == "" then
     vim.cmd("w")
@@ -123,4 +127,89 @@ vim.keymap.set("n", "<C-/>", function()
       height = 0.2,
     },
   })
-end, { desc = "Terminal (Fixed Height)" })
+end, { desc = "Terminal" })
+
+vim.keymap.set("n", "<leader>se", function()
+  local db_url = vim.b.db or vim.g.db
+
+  if not db_url then
+    local ok, dbui = pcall(require, "db_ui")
+    if ok then
+      db_url = vim.fn["db_ui#get_conn_url"]()
+    end
+  end
+
+  if not db_url or db_url == "" then
+    print("Error no database connected")
+    return
+  end
+  local protocol, user, pass, host, port, db_name = db_url:match("(%w+)://([^:]+):([^@]+)@([^:/]+):?(%d*)/(%w+)")
+
+  if not db_name then
+    print("Error: Can not extract url")
+    return
+  end
+
+  vim.ui.input({
+    prompt = "File export name (vd: backup.sql): ",
+    default = "schema_export.sql",
+  }, function(filename)
+    if not filename or filename == "" then
+      print("Schema Exporting canceled")
+      return
+    end
+
+    local cmd = string.format(
+      "mariadb-dump -u %s -p%s -h %s -P %s %s --single-transaction --quick > %s",
+      user,
+      pass,
+      host,
+      (port ~= "" and port or "3306"),
+      db_name,
+      filename
+    )
+    print("Exporting schema...")
+    local result = vim.fn.system(cmd)
+
+    if vim.v.shell_error ~= 0 then
+      print("Error when exporting: " .. result)
+    else
+      print("Exported schema: " .. filename)
+    end
+  end)
+end, { desc = "Export Schema SQL" })
+
+vim.keymap.set("n", "<leader>si", function()
+  local fzf = require("fzf-lua")
+  local path = require("fzf-lua.path")
+
+  fzf.files({
+    prompt = "SQL Schemas> ",
+    cwd = vim.fn.expand("~"),
+    -- Bỏ --absolute-path, fd sẽ trả về đường dẫn tương đối so với cwd
+    cmd = "fd -e sql --exclude .git --exclude node_modules --exclude .vscode --exclude .local --exclude .cache",
+    actions = {
+      ["default"] = function(selected, opts)
+        if not selected or #selected == 0 then
+          return
+        end
+
+        local entry = path.entry_to_file(selected[1], opts)
+        local file_path = entry.path
+
+        local ok, content = pcall(vim.fn.readfile, file_path)
+        if ok then
+          local text = table.concat(content, "\n")
+
+          vim.fn.system("wl-copy", text)
+
+          local filename = vim.fn.fnamemodify(file_path, ":t")
+          vim.notify("Copied: " .. filename, vim.log.levels.INFO)
+        else
+          -- Nếu vẫn lỗi, thông báo này sẽ cho ta thấy chính xác path bị sai chỗ nào
+          vim.notify("File not readable: " .. file_path, vim.log.levels.ERROR)
+        end
+      end,
+    },
+  })
+end, { desc = "Find and copy .sql content" })
