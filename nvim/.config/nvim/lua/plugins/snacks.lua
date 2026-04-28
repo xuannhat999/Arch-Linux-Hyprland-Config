@@ -22,7 +22,6 @@ return {
         list = {
           keys = {
             ["<cr>"] = "smart_mpv",
-            ["l"] = "smart_mpv",
           },
         },
       },
@@ -60,11 +59,7 @@ return {
           end
 
           -- NẾU KHÔNG PHẢI VIDEO: Trả về hành động mặc định (l, Enter như bình thường)
-          if picker.opts.source == "explorer" then
-            return picker:action("explorer_open")
-          else
-            return picker:action("confirm")
-          end
+          return picker:action("confirm")
         end,
       },
       -- Tắt Preview để không bị lỗi No command/Image failed

@@ -1,7 +1,3 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
--- Add any additional keymaps here
---
 -- vim.keymap.set("n", "<leader>e", function()
 --   Snacks.explorer({ cwd = vim.fn.getcwd() })
 -- end, { desc = "Explorer Snacks (cwd)" })
@@ -10,7 +6,8 @@ vim.keymap.set("n", "<Tab>", "i", { noremap = true, silent = true })
 vim.keymap.set({ "n", "v" }, "x", [["_d]], { noremap = true })
 vim.keymap.set("n", "xx", [["_dd]], { noremap = true })
 vim.keymap.set("n", "U", "g+", { desc = "Redo (time travel forward)" })
-
+vim.keymap.set({ "n", "x" }, "c", '"_c')
+vim.keymap.set("n", "C", '"_C')
 vim.keymap.set("n", "<leader>ll", "<cmd>Lazy<cr>", { desc = "Lazy" })
 vim.keymap.set("n", "<leader>le", "<cmd>LazyExtras<cr>", { desc = "LazyExtras" })
 vim.keymap.set("n", "<F5>", function()
@@ -23,7 +20,6 @@ vim.keymap.set("n", "<F5>", function()
   local ft = vim.bo.filetype
   local cmd = ""
 
-  -- Cấu hình lệnh chạy cho từng ngôn ngữ
   if ft == "python" then
     local venv = root .. "/venv/bin/activate"
     local has_venv = vim.fn.filereadable(venv) == 1
@@ -35,13 +31,10 @@ vim.keymap.set("n", "<F5>", function()
       cmd = string.format("%s && python %s", cmd, file)
     end
   elseif ft == "cpp" then
-    -- Lấy tên file không có đuôi để làm tên file thực thi (ví dụ: main.cpp -> main)
     local output_file = vim.fn.expand("%:p:r")
-    -- Lệnh: Biên dịch với chuẩn c++17 và chạy nếu biên dịch thành công
     cmd = string.format("g++ -std=c++17 %s -o %s && %s", file, output_file, output_file)
   elseif ft == "java" then
     local path_sep = "/"
-    -- 1. Tự động tìm gốc của Source Code (hỗ trợ cả Maven src/main/java và folder thường)
     local source_root = ""
     local patterns = { "src" .. path_sep .. "main" .. path_sep .. "java" .. path_sep, "src" .. path_sep }
 
@@ -54,12 +47,9 @@ vim.keymap.set("n", "<F5>", function()
       end
     end
 
-    -- 2. Chuyển đổi đường dẫn file thành Fully Qualified Class Name
     local class_name = ""
     if start_idx then
-      -- Lấy phần sau src/main/java/
       local relative_path = file:sub(start_idx + #file:match(".*" .. path_sep .. "java" .. path_sep) or start_idx + 4)
-      -- Cách an toàn hơn: tìm từ khóa 'package' ngay trong nội dung file
       local first_line = vim.fn.getline(1, 10) -- Đọc 10 dòng đầu
       local package_name = ""
       for _, line in ipairs(first_line) do
@@ -106,18 +96,13 @@ vim.keymap.set("n", "<F5>", function()
     return
   end
   cmd = cmd .. "; echo ''; read -p '--- [FINISHED] Press Enter to close ---' temp_var"
-  -- Sử dụng Snacks Terminal
   require("snacks").terminal.open(cmd, {
     win = {
-      position = "bottom", -- Mở ở dưới
+      position = "bottom",
       height = 0.3,
     },
-    -- Đặt tên để Snacks quản lý (giúp không mở nhiều window)
     name = "RUN_LOG_" .. ft:upper(),
   })
-
-  -- Gọi hàm từ module tiện ích
-  -- term_util.run_in_terminal(cmd, "RUN_LOG_" .. ft:upper())
 end, { desc = "Universal Run (F5)" })
 
 vim.keymap.set("n", "<C-/>", function()
@@ -128,57 +113,6 @@ vim.keymap.set("n", "<C-/>", function()
     },
   })
 end, { desc = "Terminal" })
-
-vim.keymap.set("n", "<leader>se", function()
-  local db_url = vim.b.db or vim.g.db
-
-  if not db_url then
-    local ok, dbui = pcall(require, "db_ui")
-    if ok then
-      db_url = vim.fn["db_ui#get_conn_url"]()
-    end
-  end
-
-  if not db_url or db_url == "" then
-    print("Error no database connected")
-    return
-  end
-  local protocol, user, pass, host, port, db_name = db_url:match("(%w+)://([^:]+):([^@]+)@([^:/]+):?(%d*)/(%w+)")
-
-  if not db_name then
-    print("Error: Can not extract url")
-    return
-  end
-
-  vim.ui.input({
-    prompt = "File export name (vd: backup.sql): ",
-    default = "schema_export.sql",
-  }, function(filename)
-    if not filename or filename == "" then
-      print("Schema Exporting canceled")
-      return
-    end
-
-    local cmd = string.format(
-      "mariadb-dump -u %s -p%s -h %s -P %s %s --single-transaction --quick > %s",
-      user,
-      pass,
-      host,
-      (port ~= "" and port or "3306"),
-      db_name,
-      filename
-    )
-    print("Exporting schema...")
-    local result = vim.fn.system(cmd)
-
-    if vim.v.shell_error ~= 0 then
-      print("Error when exporting: " .. result)
-    else
-      print("Exported schema: " .. filename)
-    end
-  end)
-end, { desc = "Export Schema SQL" })
-
 vim.keymap.set("n", "<leader>si", function()
   local fzf = require("fzf-lua")
   local path = require("fzf-lua.path")
@@ -212,4 +146,65 @@ vim.keymap.set("n", "<leader>si", function()
       end,
     },
   })
-end, { desc = "Find and copy .sql content" })
+end, { desc = "Import Schema" })
+
+vim.keymap.set("n", "<leader>se", function()
+  -- Hàm helper để xâu chuỗi các input
+  local function prompt_export()
+    vim.ui.input({ prompt = "Host: ", default = "localhost" }, function(host)
+      if not host or host == "" then
+        return
+      end
+
+      vim.ui.input({ prompt = "Port: ", default = "3306" }, function(port)
+        if not port or port == "" then
+          return
+        end
+
+        vim.ui.input({ prompt = "User: ", default = "admin" }, function(user)
+          if not user or user == "" then
+            return
+          end
+
+          -- Dùng input thường cho password (hoặc vim.fn.inputsecret nếu muốn ẩn)
+          vim.ui.input({ prompt = "Password: ", default = "admin" }, function(pass)
+            vim.ui.input({ prompt = "Database: " }, function(db_name)
+              if not db_name or db_name == "" then
+                return
+              end
+
+              vim.ui.input({ prompt = "File export name: ", default = db_name .. "_backup.sql" }, function(filename)
+                if not filename or filename == "" then
+                  return
+                end
+
+                -- Tạo câu lệnh dump
+                -- Lưu ý: -p và password dính liền nhau, không có khoảng trắng
+                local cmd = string.format(
+                  "mariadb-dump -h %s -P %s -u %s -p'%s' %s --single-transaction --quick > %s",
+                  host,
+                  port,
+                  user,
+                  pass,
+                  db_name,
+                  filename
+                )
+
+                print("\nExporting schema...")
+                local result = vim.fn.system(cmd)
+
+                if vim.v.shell_error ~= 0 then
+                  vim.notify("Error: " .. result, vim.log.levels.ERROR)
+                else
+                  vim.notify("Exported successfully: " .. filename, vim.log.levels.INFO)
+                end
+              end)
+            end)
+          end)
+        end)
+      end)
+    end)
+  end
+
+  prompt_export()
+end, { desc = "Export Schema" })
