@@ -1,16 +1,16 @@
 return {
   "folke/snacks.nvim",
   opts = {
-    explorer = {
-      files = {
-        dotfiles = true,
-        ignored = false,
-        hidden = true,
-      },
-    },
     picker = {
       sources = {
-        explorer = {},
+        files = {
+          hidden = true,
+          ignored = false,
+        },
+        explorer = {
+          hidden = true,
+          ignored = false,
+        },
       },
       -- 1. Cấu hình phím bấm cho cả Find Files và Explorer
       win = {
